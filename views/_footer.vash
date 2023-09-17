@@ -1,4 +1,4 @@
-<footer id="sticky-footer" class="footer fixed-bottom bg-dark">
+<footer class="mt-auto text-white-50 bg-dark">
   <div class="container-fluid text-center">
     <small><a href="/about">about</a></small>
   </div>

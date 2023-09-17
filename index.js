@@ -31,6 +31,8 @@ if (isProduction) {
 
 app.use(session(sess))
 
+// await SeedDb.seedSqliteDb();
+
 // view engine setup
 app.set('views', path.join(import.meta.dir, 'views'));
 app.set('view engine', 'vash');
@@ -40,6 +42,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(express.static(path.join(import.meta.dir, 'public')));
+app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/bootstrap/dist/css'));
+app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/trumbowyg/dist/ui'));
+app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/toastr/build'));
+app.use('/javascripts', express.static(import.meta.dir + '/node_modules/jquery/dist'));
+app.use('/javascripts', express.static(import.meta.dir + '/node_modules/@popperjs/core/dist'));
+app.use('/javascripts', express.static(import.meta.dir + '/node_modules/bootstrap/dist/js'));
+app.use('/javascripts', express.static(import.meta.dir + '/node_modules/trumbowyg/dist'));
+app.use('/javascripts', express.static(import.meta.dir + '/node_modules/toastr'));
 
 app.use('/about', aboutRoutes);
 app.use('/admin', adminRoutes);

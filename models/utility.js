@@ -7,16 +7,7 @@ const Utility = {
  */
     generateFiglet: function(text){
 
-        figlet(text, function (err, data) {
-            if (err) {
-              console.log("Something went wrong...");
-              console.dir(err);
-              return 'Welcome to tomreese.blog!';
-            }
-
-            console.log(data);
-            return data;
-          });
+        
     }
 }
 

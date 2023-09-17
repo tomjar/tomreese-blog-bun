@@ -1,6 +1,7 @@
 @html.extend('layout', function(model) {
   @html.block('content', function(model) {
-    <h1>@model.title</h1>
+
+<div class="text-white bg-dark container">
 
     <p>
       <img src="/images/profilepic_updated.JPG" alt="thomas reese" height="410px">      
@@ -14,15 +15,12 @@
     <a href="https://getbootstrap.com" target="_blank">Bootstrap</a>,         
     and the <a href="https://github.com/kirbysayshi/vash" target="_blank">vash template engine</a>.         
     The source code for this website can be found <a href="https://github.com/tomjar/nuggetnova" target="_blank">here</a>.</p>    
-    <ul class="list-group">      
-      <li class="list-group-item flex-fill border-0"><a href="https://github.com/tomjar" target="_blank" title="Thomas Reese's github">github</a></li>
-      <li class="list-group-item flex-fill border-0"><a href="https://www.linkedin.com/in/tjr-dingo" target="_blank" title="Thomas Reese's linkedin">linkedin</a></li> 
-      <li class="list-group-item flex-fill border-0"><a href="https://strava.com/athletes/24684389/" target="_blank" title="Thomas Reese's strava">strava</a></li>
-      <li class="list-group-item flex-fill border-0"><a href="https://www.instagram.com/cyclemadmot/" title="instagram">instagram</a><br></li>
+    <ul class="list-group bg-dark">      
+      <li class="list-group-item flex-fill border-0 bg-dark"><a href="https://github.com/tomjar" target="_blank" title="Thomas Reese's github">github</a></li>
+      <li class="list-group-item flex-fill border-0 bg-dark"><a href="https://www.linkedin.com/in/tjr-dingo" target="_blank" title="Thomas Reese's linkedin">linkedin</a></li> 
+      <li class="list-group-item flex-fill border-0 bg-dark"><a href="https://www.instagram.com/zooblot/" title="instagram">instagram</a><br></li>
     </ul>  
+    </div>
     
-    @html.block('archive', function(model){
-      @html.include('_archive', model)
-    })
   })
 })

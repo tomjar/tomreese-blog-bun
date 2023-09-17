@@ -3,25 +3,20 @@
     @html.block('_toastr_display', function(model){
       @html.include('_toastr_display', model)
     })
-    <h1>@model.title</h1>
-    <form method="post" action="/login">
-    <div class="row">
-          <div class="col-md-3">
-        <div class="input-group mb-3">
-          <input type="input" class="form-control" name="username" value='' placeholder="Username" />
-        </div>
-        </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" value='' placeholder="Password" />
-          <div class="input-group-append">
-            <input type="submit" value="Login" class="btn btn-primary" />
-          </div>
-        </div>
-      </div>
-    </div>
-    </form>
+
+<form method="post" action="/login">
+  <div class="d-flex flex-column text-white form-signin justify-content-center">
+  <div class="p-2">
+    <h3 class="text-white">Please sign in</h3>
+  </div>
+  <div class="p-2">
+    <input type="input" class="form-control" name="username" value="" placeholder="username" />
+  </div>
+  <div class="p-2">
+      <input type="password" class="form-control" name="password" value="" placeholder="password" />
+  </div>
+  <div class="p-2"><input type="submit" value="Login" class="btn btn-primary" /></div>
+  </div>
+  </form>
   })
 })

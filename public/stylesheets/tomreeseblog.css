@@ -1,0 +1,13 @@
+html,
+body {
+  height: 100%;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+}
+

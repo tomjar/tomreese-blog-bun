@@ -1,6 +1,8 @@
 import express from "express";
 import Auth from "../models/auth";
 import Event from "../models/event";
+import ToastrTypeEnum from "../enums/toastrtypeenum";
+import EventCategoryEnum from "../enums/eventcategoryenum";
 
 const router = express.Router();
 
@@ -23,26 +25,36 @@ router.get('/', (req, res, next) => {
     } else {
         Promise.all([Auth.validatePassword(req.body.username, req.body.password)])
             .then((result) => {
-                if (result) {
 
+                console.log(result[0]);
+                // valid: false,
+                // setpassword: true
+
+                if(result[0].setpassword){
+                    
+                    res.render('resetpassword', {
+                        username: req.body.username,
+                        title: 'Reset Password'
+                    })
+
+                }else if(result[0].valid){
                     // welcome valid user
                     req.session.isauthenticated = true;
                     res.redirect('../');
-
-                } else {
+                }else{
                     req.session.lockout = true;
 
                     req.session.toastr_messages = JSON.stringify(
                         [
                             {
-                                type: tte.Warning,
+                                type: ToastrTypeEnum.Warning,
                                 msg: 'This failed login attempt has been logged.'
                             }
                         ]
                     );
 
                     let description = 'It appears someone attempted to login to the website and failed.',
-                        category = eventTypeEnum.LoginFailure,
+                        category = EventCategoryEnum.LoginFailure,
                         ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
 
@@ -53,15 +65,6 @@ router.get('/', (req, res, next) => {
     }
 });
 
-// logout
-router.get('/logout', (req, res, next) => {
-    req.session.destroy(function (err) {
-        if (err) {
-            return next(err);
-        } else {
-            res.redirect('/');
-        }
-    });
-});
+
 
 export default router;
