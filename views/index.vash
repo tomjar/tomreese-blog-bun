@@ -3,16 +3,17 @@
     @html.block('_toastr_display', function(model){
       @html.include('_toastr_display', model)
     })
-    <h1 title="last 30 days">@model.title</h1>
+    <h1 class="text-white" title="last 30 days">@model.title</h1>
 
-    <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+  @if(model.lastThirtyDaysBlogs && model.lastThirtyDaysBlogs.length > 0){
+    <div class="d-flex flex-wrap text-white flex-row bd-highlight mb-3">
       @model.lastThirtyDaysBlogs.forEach(function(item){
           <div class="p-1 bd-highlight">
           <div class="card">
             <div class="card-body">
               <h3 class="card-title"></h3>
               <span>
-                <a href="/post/@item.name" title="@item.header">
+                <a href="/blog/@item.name" title="@item.header">
                   @item.header
                 </a>
               </span>
@@ -36,8 +37,10 @@
       </div>
       })
       </div>
-  })
-  @html.block('archive', function(model){
-    @html.include('_archive', model)
+  }else{
+    <div class="d-flex flex-wrap text-white flex-row bd-highlight mb-3">
+    <pre>@model.greeting</pre>
+    </div>
+  }
   })
 })

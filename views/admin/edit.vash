@@ -1,8 +1,8 @@
 @html.extend('layout', function(model) {
   @html.block('content', function(model) {
     <h1>@model.title</h1>
-    <form method="post" action="/admin/update" id="formUpdatePost">
-      <input id="postId" name="postId" type="hidden" value='@model.post.id' />
+    <form method="post" action="/admin/blog/update" id="formUpdatePost">
+      <input id="id" name="id" type="hidden" value='@model.blog.id' />
 
       <div class="row">
         <div class="col">
@@ -15,13 +15,13 @@
       <div class="row">
         <div class="col">
           <label for="">name(view file name):</label>
-          <span class="form-control" name="postName">@model.post.name</span>
+          <span class="form-control" name="name">@model.name</span>
         </div>
         <div class="col">
           <label for="postCategory">category:</label>
-          <select class="form-control" name="postCategory">
-            @model.post.categories.forEach(function(item){
-              if (item.name === model.post.category){
+          <select class="form-control" name="category">
+            @model.blog.categories.forEach(function(item){
+              if (item.name === model.category){
                 <option value="@item.value" selected>@item.name</option>
               }else{
                 <option value="@item.value">@item.name</option>
@@ -32,12 +32,12 @@
         <div class="col">
           <label>header:</label>
           <br />
-          <input type="text" class="form-control" name="postHeader" value='@model.post.header' placeholder="header" />
+          <input type="text" class="form-control" name="header" value='@model.blog.header' placeholder="header" />
         </div>
         <div class="col">
-          <label for="postIsPublished">publish post?:</label>
-            <select class="form-control" name="postIsPublished">
-              @if (model.post.ispublished){
+          <label for="ispublished">publish post?:</label>
+            <select class="form-control" name="ispublished">
+              @if (model.blog.ispublished){
               <option value="true" selected>Yes</option>
               <option value="false">No</option>
               }else{
@@ -53,7 +53,7 @@
       <div class="row">
         <div class="col">
           <label>description:</label>
-          <textarea type="text" class="form-control" name="postDescription" placeholder="description">@model.post.description</textarea>
+          <textarea type="text" class="form-control" name="description" placeholder="description">@model.blog.description</textarea>
         </div>
       </div>
 
@@ -62,7 +62,7 @@
       <div class="row">
         <div class="col">
             <label>body:</label>
-            <textarea type="text" class="form-control trumbowyg" name="postBody" rows="25" placeholder="post content">@model.post.body</textarea>
+            <textarea type="text" class="form-control trumbowyg" name="body" rows="25" placeholder="post content">@model.blog.body</textarea>
         </div>
       </div>
     </form>

@@ -2,7 +2,7 @@
   @html.block('content', function(model) {
     <h1>@model.title</h1>
 
-    <form method="post" action="/admin/add">
+    <form method="post" action="/admin/blog/add">
       <div class="row">
         <div class="col">
           <input type="submit" value="Add new post" class="btn btn-success" />
@@ -14,11 +14,11 @@
       <div class="row">
         <div class="col">
           <label for="">name:</label>
-          <input type="text" class="form-control" name="postName" value="" placeholder="name" />
+          <input type="text" class="form-control" name="name" value="" placeholder="name" />
         </div>
         <div class="col">
-          <label for="postCategory">category:</label>
-          <select class="form-control" name="postCategory">
+          <label for="category">category:</label>
+          <select class="form-control" name="category">
             @model.categories.forEach(function(item){
                 <option value="@item.value">@item.name</option>
             })
@@ -27,7 +27,7 @@
         <div class="col">
           <label>header:</label>
           <br />
-          <input type="text" class="form-control" name="postHeader" value='' placeholder="header" />
+          <input type="text" class="form-control" name="header" value='' placeholder="header" />
         </div>
       </div>
 
@@ -36,7 +36,7 @@
       <div class="row">
         <div class="col">
           <label>description:</label>
-          <textarea type="text" class="form-control" name="postDescription" placeholder="description"></textarea>
+          <textarea type="text" class="form-control" name="description" placeholder="description"></textarea>
         </div>
       </div>
 
@@ -45,7 +45,7 @@
       <div class="row">
         <div class="col">
             <label>body:</label>
-            <textarea type="text" class="form-control trumbowyg" name="postBody" rows="25" placeholder="post content"></textarea>
+            <textarea type="text" class="form-control trumbowyg" name="body" rows="25" placeholder="post content"></textarea>
         </div>
       </div>
 

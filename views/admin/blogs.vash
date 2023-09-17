@@ -3,42 +3,49 @@
     @html.block('_toastr_display', function(model){
       @html.include('_toastr_display', model)
     })
-    <h1>@model.title</h1>
-        <table class="table">
-      <tr>
-        <th>header</th>
-        <th>create timestamp</th>
-        <th>modify timestamp</th>
-        <th>is published?</th>
-        <th>category</th>
-        <th></th>
-      </tr>
+    <h1 class="text-white">@model.title</h1>
+      <div class="container rounded-3 text-white">
+      <div class="row">
+        <div class="col">header</div>
+        <div class="col">create timestamp</div>
+        <div class="col">modify timestamp</div>
+        <div class="col">is published?</div>
+        <div class="col">category</div>
+        <div class="col"></div>
+      </div>
     @model.blogs.forEach(function(item){
-      <tr>
-	      <td>@item.header</td>
-        <td>@item.createtimestamp</td>
-        <td>@item.modifytimestamp</td>
-        <td>@item.ispublished</td>
-        <td>@item.category</td>
-        <td>
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="btn btn-default dropdown-item" href='/admin/update/@item.id'>edit</a>
-              @if (item.ispublished){
-                <a class="btn btn-default dropdown-item" href='/admin/deactivate/@item.id'>deactivate</a>
-              }else{
-                <a class="btn btn-default dropdown-item" href='/admin/activate/@item.id'>activate</a>
-              }
-                <a class="btn btn-danger dropdown-item" href='/admin/delete/@item.id'>delete</a>
-            </div>
-          </div>
-        </td>
-      </tr>
+      <div class="row">
+	      <div class="col-2">@item.header</div>
+        <div class="col-2">@item.createtimestamp</div>
+        <div class="col-2">@item.modifytimestamp</div>
+        <div class="col-2">@item.ispublished</div>
+        <div class="col-2">@item.category</div>
+        <div class="col-2">
+
+        <ul class="list-unstyled mb-0">
+          <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href='/admin/blog/update/@item.id'>
+          <span class="d-inline-block bg-success rounded-circle p-1"></span>
+            Edit
+          </a></li>
+            @if (item.ispublished){
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/admin/blog/deactivate/@item.id">
+            <span class="d-inline-block bg-primary rounded-circle p-1"></span>
+              Deactivate
+            </a></li>
+          }else{
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/admin/blog/activate/@item.id">
+            <span class="d-inline-block bg-primary rounded-circle p-1"></span>
+              Activate
+            </a></li>
+            }
+          <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/admin/blog/delete/@item.id">
+            <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+            Delete
+          </a></li>
+        </ul>
+        </div>
+      </div>
     })
-    </table>
+    </div>
   })
 })

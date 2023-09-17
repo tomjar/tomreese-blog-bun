@@ -2,28 +2,28 @@
   @html.block('content', function(model) {
     <h1>@model.title</h1>
 
-    <ul class="list-group list-group-horizontal">
-      <li class="list-group-item border-0">
+    <ul class="list-group list-group-horizontal bg-dark text-white">
+      <li class="list-group-item border-0 bg-dark text-white">
         <img src='@model.imageUrl' alt='' width='75px' height='75px' />
       </li>
-      <li class="list-group-item border-0">
+      <li class="list-group-item border-0 bg-dark text-white">
           <span style="font-size:xx-small">by <a href="/about" >Thomas Reese</a></span>
       </li>
-      <li class="list-group-item border-0">
+      <li class="list-group-item border-0 bg-dark text-white">
       <span style="font-size:xx-small;">
           <i>first published on @model.createtimestamp UTC</i>
           <br />
-        @if (model.updatedAt) {
+        @if (model.modifytimestamp) {
         <i>last updated on @model.modifytimestamp UTC</i>
         }
         </span>
       </li>
       </ul>
-    <p>
-    </p>
-    @html.raw(model.body)
-  })
-  @html.block('archive', function(model){
-    @html.include('_archive', model)
+    <div class="text-white">
+      <p>
+        @html.raw(model.body)
+      </p>
+    </div>
+  
   })
 })

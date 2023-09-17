@@ -3,12 +3,9 @@ import session from "express-session";
 import path from "path";
 import errors from "http-errors";
 
-import aboutRoutes from "./routes/aboutRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
-import eventRoutes from "./routes/eventRoutes.js";
 import indexRoutes from "./routes/indexRoutes.js";
-import settingsRoutes from "./routes/settingsRoutes.js";
 import loginRoutes from "./routes/loginRoutes.js";
 import SeedDb from "./seedDb.js";
 
@@ -51,17 +48,14 @@ app.use('/javascripts', express.static(import.meta.dir + '/node_modules/bootstra
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/trumbowyg/dist'));
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/toastr'));
 
-app.use('/about', aboutRoutes);
 app.use('/admin', adminRoutes);
 app.use('/blog', blogRoutes);
-app.use('/event', eventRoutes);
 app.use('/', indexRoutes);
-app.use('/settings', settingsRoutes);
 app.use('/login', loginRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  next(errors(404));
 });
 
 // error handler

@@ -2,14 +2,37 @@
 import express from "express";
 import Blog from "../models/blog";
 import Auth from "../models/auth";
-import figlet from "figlet";
-import Utility from "../models/utility";
+import Settings from "../models/settings";
+import CowSay from "cowsay";
 
 const router = express.Router();
 // home
 router.get('/', (req, res, next) => {
 
-  const homeViewModel = {
+  const viewmodel = {
+    title: 'Welcome to tomreese.blog!',
+    lastThirtyDaysBlogs: Blog.getAllPublishedLastThirtyDays(),
+    yearAndBlogs: Blog.getAllArchived(),
+    isauthenticated: req.session.isauthenticated,
+    toastr_messages: req.session.toastr_messages,
+    greeting: CowSay.say({
+      text: "Its rather empty around here, check out the Archive for past blogs.",
+      e: "Oo",
+    })
+  };
+
+  try {
+    res.render('index', viewmodel);
+  } catch (error) {
+    return next(error);
+  }
+
+});
+
+// archive
+router.get('/archive', (req, res, next) => {
+
+  const model = {
     title: 'Welcome to tomreese.blog!',
     lastThirtyDaysBlogs: Blog.getAllPublishedLastThirtyDays(),
     yearAndBlogs: Blog.getAllArchived(),
@@ -17,7 +40,7 @@ router.get('/', (req, res, next) => {
   };
 
   try {
-    res.render('index', homeViewModel);
+    res.render('archive', model);
   } catch (error) {
     return next(error);
   }
@@ -27,30 +50,21 @@ router.get('/', (req, res, next) => {
 // resetpassword
 router.get('/resetpassword', (req, res, next) => {
 
-  const resetpasswordViewModel = {
+  const viewmodel = {
     title: 'Reset Password',
-    lastThirtyDaysBlogs: Blog.getAllPublishedLastThirtyDays(),
-    yearAndBlogs: Blog.getAllArchived(),
     isauthenticated: req.session.isauthenticated
   };
 
   try {
-    res.render('', resetpasswordViewModel);
+    res.render('resetpassword', viewmodel);
   } catch (error) {
     return next(error);
   }
 
-  req.session.destroy(function (err) {
-    if (err) {
-      return next(err);
-    } else {
-      res.redirect('/');
-    }
-  });
 }).post('/resetpassword', (req, res, next) => {
 
   if (req.session.lockout) {
-    res.redirect('../');
+    res.redirect('/');
   } else {
 
     Promise.all(Auth.initPassword(req.body.username, req.body.password, req.body.cnfpassword))
@@ -66,9 +80,27 @@ router.get('/resetpassword', (req, res, next) => {
             ]
           );
 
-          res.redirect('../');
+          res.redirect('/');
         }
       });
+  }
+});
+
+// about
+router.get('/about', (req, res, next) => {
+
+  try {
+
+    const result = Settings.getSettings();
+    const modelview = {
+      'title': 'About',
+      'about_section': result.about_section,
+      toastr_messages: req.session.toastr_messages
+    };
+
+    res.render('about', modelview);
+  } catch (error) {
+    return next(error);
   }
 });
 

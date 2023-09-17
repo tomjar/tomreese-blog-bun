@@ -14,24 +14,23 @@
   <script src="/javascripts/bootstrap.js"></script>
   <script src="/javascripts/trumbowyg.js"></script>
   <script src="/javascripts/toastr.js"></script>
-  <script src="/javascripts/tomreeseblog.js"></script>
+  <script src="/javascripts/utility.js"></script>
 </head> 
 
 <body>
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column bg-dark">
   <header>
-    <small class="float-md-start mb-0 text-white">@model.title</small>
-
     @html.include('_navbarlinks', model)
   </header>
 
-  <main class="px-3">
-    @html.block('content')
+  <main class="px-3 h-100">
+    <div class="container bg-dark shadow-lg rounded">
+      @html.block('content')
+    </div>
   </main>
 
-
-</div>
     @html.include('_footer')
     @html.block('_toastr_display')
+    </div>
 </body>
 </html>
