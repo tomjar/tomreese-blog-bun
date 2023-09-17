@@ -1,0 +1,21 @@
+{
+  "name": "tomreese-blog-bun",
+  "module": "index.js",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "start": "bun run index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "figlet": "^1.6.0",
+    "http-errors": "^2.0.0",
+    "vash": "^0.13.0"
+  }
+}
