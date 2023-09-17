@@ -377,6 +377,7 @@ router.get('/settings', (req, res, next) => {
 }).post('/settings', (req, res, next) => {
     if (req.session.isauthenticated) {
 
+        console.log(req.body);
         const result = Settings.updateSettings(req.body.archiveView, req.body.about);
         if (result) {
             req.session.toastr_messages = JSON.stringify(

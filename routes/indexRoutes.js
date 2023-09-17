@@ -12,7 +12,6 @@ router.get('/', (req, res, next) => {
   const viewmodel = {
     title: 'Welcome to tomreese.blog!',
     lastThirtyDaysBlogs: Blog.getAllPublishedLastThirtyDays(),
-    yearAndBlogs: Blog.getAllArchived(),
     isauthenticated: req.session.isauthenticated,
     toastr_messages: req.session.toastr_messages,
     greeting: CowSay.say({
@@ -34,7 +33,6 @@ router.get('/archive', (req, res, next) => {
 
   const model = {
     title: 'Welcome to tomreese.blog!',
-    lastThirtyDaysBlogs: Blog.getAllPublishedLastThirtyDays(),
     yearAndBlogs: Blog.getAllArchived(),
     isauthenticated: req.session.isauthenticated
   };

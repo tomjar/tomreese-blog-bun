@@ -9,6 +9,8 @@ const Settings = {
      */
     updateSettings: function (archive_view, about_section) {
         const sqliteDb = new Database("tomreeseblog.sqlite");
+        // TODO: need way to update setting for about area?
+        // insert not update?
         const query = sqliteDb.query(`UPDATE Setting SET archive_view=?1, about_section=?2;`);
         const result = query.all(archive_view, about_section);
         sqliteDb.close();
