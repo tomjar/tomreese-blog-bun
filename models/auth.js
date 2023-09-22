@@ -7,6 +7,7 @@ const Auth = {
      * @param {String} username 
      * @param {String} password 
      * @param {String} cfpassword 
+     * @returns {any[]}
      */
     initPassword: async function (username, password, cfpassword) {
 
@@ -36,13 +37,13 @@ const Auth = {
      * @description validates the super secret password
      * @param {String} username the user
      * @param {String} password the attempted password
+     * @returns {valid: {Boolean},setpassword: {Boolean}}
      */
     validatePassword: async function (username, password) {
 
         const sqliteDb = new Database("tomreeseblog.sqlite");
         const query = sqliteDb.query(`SELECT * FROM Sspw WHERE username = ?1 LIMIT 1;`);
         const result = query.all(username);
-
         sqliteDb.close();
 
         if (result && result.length > 0) {
@@ -51,6 +52,8 @@ const Auth = {
             const salt = data.salt;
             const pwPlusSalt = password + salt;
 
+            // found a user but there is no salt or hashed password
+            // lets send them over to resetpassword
             if (!hashedUserPw && !salt) {
                 return {
                     valid: false,

@@ -28,6 +28,7 @@ router.get('/', (req, res, next) => {
 
                 if (result && result.length > 0 && result[0].setpassword) {
 
+                    req.session.setpassword = true;
                     res.render('resetpassword', {
                         username: req.body.username,
                         title: 'Reset Password',
@@ -58,15 +59,14 @@ router.get('/', (req, res, next) => {
                         ]
                     );
 
-                    const description = 'It appears someone attempted to login to the website and failed.';
-                    const category = EventCategoryEnum.LoginFailure;
+                    const description = `Failed Login! username: ${req.body.username}`;
+                    const category = EventCategoryEnum.EventCategoryEnum.LoginFailure;
                     const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-                    // TODO: test ths promis
-                    Event.insertEvent(ipAddress, category, description).then((val) => {
+                    Event.insertEvent(ipAddress, category, description).then((result) => {
                         res.redirect('/');
                     });
-                    
+
                 }
             })
     }

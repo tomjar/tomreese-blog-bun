@@ -7,7 +7,8 @@ import adminRoutes from "./routes/adminRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import indexRoutes from "./routes/indexRoutes.js";
 import loginRoutes from "./routes/loginRoutes.js";
-import SeedDb from "./seedDb.js";
+import Utility from "./models/utility.js";
+import CowSay from "cowsay";
 
 const port = 8080;
 const app = express();
@@ -28,7 +29,8 @@ if (isProduction) {
 
 app.use(session(sess))
 
-// await SeedDb.seedSqliteDb();
+// helpful seed logic to get up and running quickly
+// await Utility.seedSqliteDb();
 
 // view engine setup
 app.set('views', path.join(import.meta.dir, 'views'));
@@ -51,15 +53,23 @@ app.use('/', indexRoutes);
 app.use('/login', loginRoutes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(errors(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
+  const cowSayErr = CowSay.say({
+    text: `${err.status}: ${err.message}`,
+    e: "Oo",
+  });
+
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = !isProduction ? {} : err;
+  res.locals.cowSayErr = cowSayErr;
+
+
 
   // render the error page
   res.status(err.status || 500);

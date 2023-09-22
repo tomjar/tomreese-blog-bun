@@ -171,5 +171,5 @@ dist
 # IntelliJ based IDEs
 .idea
 tomreeseblog.sqlite
-blogs.json
+blogs-txt
 .deb

@@ -3,5 +3,11 @@ const EventCategoryEnum = {
 };
 
 
+const ValueNameEnumArray = [
+    { 'value': 'category', 'name': 'category' },
+    { 'value': 'date', 'name': 'date' }
+];
 
-export default EventCategoryEnum;
+
+
+export default {EventCategoryEnum, ValueNameEnumArray};

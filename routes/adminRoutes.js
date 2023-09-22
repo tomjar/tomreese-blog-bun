@@ -4,37 +4,49 @@ import ToastrTypeEnum from "../enums/toastrtypeenum";
 import Event from "../models/event";
 import Settings from "../models/settings";
 import express from "express";
+import eventcategoryenum from "../enums/eventcategoryenum";
 const router = express.Router();
- 
- // index admin dashboard
+
+// index admin dashboard
 router.get('/', (req, res, next) => {
-  if (req.session.isauthenticated) {
 
-      let viewmodel = {
-          'title': 'admin dashboard',
-          'isauthenticated': req.session.isauthenticated,
-          toastr_messages: req.session.toastr_messages
-      };
+    if (!req.session.isauthenticated) {
+        req.session.toastr_messages = JSON.stringify(
+            [
+                {
+                    type: ToastrTypeEnum.Warning,
+                    msg: `Please login.`
+                }
+            ]
+        );
+        res.redirect('/login');
+    }
 
-      res.render('admin/index', viewmodel);
-  } else {
-    req.session.toastr_messages = JSON.stringify(
-        [
-            {
-                type: ToastrTypeEnum.Warning,
-                msg: `Please login.`
-            }
-        ]
-    );
-      res.redirect('/login');
-  }
+    let viewmodel = {
+        'title': 'admin dashboard',
+        'isauthenticated': req.session.isauthenticated,
+        toastr_messages: req.session.toastr_messages
+    };
+
+    res.render('admin/index', viewmodel);
 });
 
 // // all blogs
 router.get('/blogs', (req, res, next) => {
-    if (req.session.isauthenticated) {
 
-        const result = Blog.getAll();
+    if (!req.session.isauthenticated) {
+        req.session.toastr_messages = JSON.stringify(
+            [
+                {
+                    type: ToastrTypeEnum.Warning,
+                    msg: `Please login.`
+                }
+            ]
+        );
+        res.redirect('/login');
+    }
+
+    Blog.getAll().then((result) => {
 
         const allBlogsViewModel = {
             title: 'All Blogs',
@@ -46,38 +58,15 @@ router.get('/blogs', (req, res, next) => {
         req.session.toastr_messages = null;
         res.render('admin/blogs', allBlogsViewModel);
 
-    } else {
-        req.session.toastr_messages = JSON.stringify(
-            [
-                {
-                    type: ToastrTypeEnum.Warning,
-                    msg: `Please login.`
-                }
-            ]
-        );
-        res.redirect('/login');
-    }
+    }).catch((err) => {
+        next(err);
+    });
 });
 
 // add
 router.get('/blog/add', (req, res, next) => {
-    if (req.session.isauthenticated) {
 
-        const categories = [
-            { 'value': PostCategoryEnum.Bicycle.toLowerCase(), 'name': PostCategoryEnum.Bicycle.toLowerCase() },
-            { 'value': PostCategoryEnum.Code.toLowerCase(), 'name': PostCategoryEnum.Code.toLowerCase() },
-            { 'value': PostCategoryEnum.Gaming.toLowerCase(), 'name': PostCategoryEnum.Gaming.toLowerCase() },
-            { 'value': PostCategoryEnum.Hardware.toLowerCase(), 'name': PostCategoryEnum.Hardware.toLowerCase() },
-            { 'value': PostCategoryEnum.Life.toLowerCase(), 'name': PostCategoryEnum.Life.toLowerCase() },
-            { 'value': PostCategoryEnum.Review.toLowerCase(), 'name': PostCategoryEnum.Review.toLowerCase() }
-        ];
-
-        res.render('admin/add', {
-            'title': 'Add New Blog',
-            'isauthenticated': req.session.isauthenticated,
-            'categories': categories
-        });
-    } else {
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -88,24 +77,16 @@ router.get('/blog/add', (req, res, next) => {
         );
         res.redirect('/login');
     }
+
+    res.render('admin/add', {
+        'title': 'Add New Blog',
+        'isauthenticated': req.session.isauthenticated,
+        'categories': PostCategoryEnum.NameValueEnumArr
+    });
+
 }).post('/blog/add', (req, res, next) => {
-    if (req.session.isauthenticated) {
 
-        const result = Blog.insertBlog(req.body.header, req.body.description, req.body.name, req.body.category, req.body.body);
-
-        if (result) {
-            req.session.toastr_messages = JSON.stringify(
-                [
-                    {
-                        type: ToastrTypeEnum.Success,
-                        msg: `The post ${result.name} was added!`
-                    }
-                ]
-            );
-
-            res.redirect('admin/blogs');
-        }
-    } else {
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -116,38 +97,57 @@ router.get('/blog/add', (req, res, next) => {
         );
         res.redirect('/login');
     }
+
+    Blog.insertBlog(req.body.header, req.body.description, req.body.name, req.body.category, req.body.body)
+        .then((result) => {
+            if (result) {
+                req.session.toastr_messages = JSON.stringify(
+                    [
+                        {
+                            type: ToastrTypeEnum.Success,
+                            msg: `The post ${req.body.name} was added!`
+                        }
+                    ]
+                );
+
+                res.redirect('admin/blogs');
+            }
+        })
+        .catch((err) => {
+            next(err);
+        });
 });
 
 // update
 router.get('/blog/update/:id', (req, res, next) => {
-    if (req.session.isauthenticated) {
-        
-        const blogId = parseInt(req.params.id);
-        if(!Number.isInteger(blogId)){
+    if (!req.session.isauthenticated) {
+        req.session.toastr_messages = JSON.stringify(
+            [
+                {
+                    type: ToastrTypeEnum.Warning,
+                    msg: `Please login.`
+                }
+            ]
+        );
+        res.redirect('/login');
+    }
 
-            req.session.toastr_messages = JSON.stringify(
-                [
-                    {
-                        type: ToastrTypeEnum.Error,
-                        msg: `No such blog!`
-                    }
-                ]
-            );
+    const blogId = parseInt(req.params.id);
+    if (!Number.isInteger(blogId)) {
 
-            res.redirect('/');
-        }
+        req.session.toastr_messages = JSON.stringify(
+            [
+                {
+                    type: ToastrTypeEnum.Error,
+                    msg: `No such blog!`
+                }
+            ]
+        );
+        res.redirect('/');
+    }
 
-        const result = Blog.getBlogById(req.params.id);
-
-        if(result){
-            const categories = [
-                { 'value': PostCategoryEnum.Bicycle.toLowerCase(), 'name': PostCategoryEnum.Bicycle.toLowerCase() },
-                { 'value': PostCategoryEnum.Code.toLowerCase(), 'name': PostCategoryEnum.Code.toLowerCase() },
-                { 'value': PostCategoryEnum.Gaming.toLowerCase(), 'name': PostCategoryEnum.Gaming.toLowerCase() },
-                { 'value': PostCategoryEnum.Hardware.toLowerCase(), 'name': PostCategoryEnum.Hardware.toLowerCase() },
-                { 'value': PostCategoryEnum.Life.toLowerCase(), 'name': PostCategoryEnum.Life.toLowerCase() },
-                { 'value': PostCategoryEnum.Review.toLowerCase(), 'name': PostCategoryEnum.Review.toLowerCase() }
-            ];
+    Blog.getBlogById(blogId).then((result) => {
+        if (result) {
 
             const editBlogView = {
                 'id': result.id,
@@ -157,7 +157,7 @@ router.get('/blog/update/:id', (req, res, next) => {
                 'name': result.name,
                 'category': result.category.toLowerCase(),
                 'body': result.body,
-                'categories': categories
+                'categories': PostCategoryEnum.NameValueEnumArr
             };
 
             res.render('admin/edit', {
@@ -166,38 +166,22 @@ router.get('/blog/update/:id', (req, res, next) => {
                 blog: editBlogView,
                 toastr_messages: req.session.toastr_messages
             });
-    }else{
-        res.redirect('/');
-    }
-
-    } else {
-        req.session.toastr_messages = JSON.stringify(
-            [
-                {
-                    type: ToastrTypeEnum.Warning,
-                    msg: `Please login.`
-                }
-            ]
-        );
-        res.redirect('/login');
-    }
-}).post('/blog/update', (req, res, next) => {
-    if (req.session.isauthenticated) {
-        const result = Blog.updateBlog(req.body.category, req.body.header, req.body.ispublished, req.body.description, req.body.body, req.body.id);
-
-        if (result) {
+        } else {
             req.session.toastr_messages = JSON.stringify(
                 [
                     {
-                        type: ToastrTypeEnum.Success,
-                        msg: `The post ${result.id} was updated!`
+                        type: ToastrTypeEnum.Error,
+                        msg: `No such blog!`
                     }
                 ]
             );
-
-            res.redirect('/admin/blogs');
+            res.redirect('/');
         }
-    } else {
+    }).catch((err) => {
+        next(err);
+    });
+}).post('/blog/update', (req, res, next) => {
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -208,14 +192,43 @@ router.get('/blog/update/:id', (req, res, next) => {
         );
         res.redirect('/login');
     }
+
+    Blog.updateBlog(req.body.category, req.body.header, req.body.ispublished, req.body.description, req.body.body, req.body.id)
+        .then((result) => {
+            if (result) {
+                req.session.toastr_messages = JSON.stringify(
+                    [
+                        {
+                            type: ToastrTypeEnum.Success,
+                            msg: `The post ${result.id} was updated!`
+                        }
+                    ]
+                );
+
+                res.redirect('/admin/blogs');
+            }
+        }).catch((err) => {
+            next(err);
+        });
 });
 
 // activate
 router.get('/blog/activate/:id', (req, res, next) => {
-    if (req.session.isauthenticated) {
-        let id = req.params.id;
 
-        const result = Blog.updateBlogPublished(true, req.params.id);
+    if (!req.session.isauthenticated) {
+        req.session.toastr_messages = JSON.stringify(
+            [
+                {
+                    type: ToastrTypeEnum.Warning,
+                    msg: `Please login.`
+                }
+            ]
+        );
+        res.redirect('/login');
+    }
+
+    const id = req.params.id;
+    Blog.updateBlogPublished(true, id).then((result) => {
         if (result) {
             req.session.toastr_messages = JSON.stringify(
                 [
@@ -227,7 +240,15 @@ router.get('/blog/activate/:id', (req, res, next) => {
             );
             res.redirect('/admin/blogs');
         }
-    } else {
+    }).catch((err) => {
+        next(err);
+    });
+});
+
+// deactivate
+router.get('/blog/deactivate/:id', (req, res, next) => {
+
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -238,13 +259,8 @@ router.get('/blog/activate/:id', (req, res, next) => {
         );
         res.redirect('/login');
     }
-});
 
-// deactivate
-router.get('/blog/deactivate/:id', (req, res, next) => {
-    if (req.session.isauthenticated) {
-
-        const result = Blog.updateBlogPublished(false, req.params.id);
+    Blog.updateBlogPublished(false, req.params.id).then((result) => {
         if (result) {
             req.session.toastr_messages = JSON.stringify(
                 [
@@ -257,7 +273,15 @@ router.get('/blog/deactivate/:id', (req, res, next) => {
 
             res.redirect('admin/blogs');
         }
-    } else {
+    }).catch((err) => {
+        next(err);
+    });
+});
+
+// delete permanently
+router.get('/blog/delete/:id', (req, res, next) => {
+
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -268,14 +292,8 @@ router.get('/blog/deactivate/:id', (req, res, next) => {
         );
         res.redirect('/login');
     }
-});
 
-// delete permanently
-router.get('/blog/delete/:id', (req, res, next) => {
-    if (req.session.isauthenticated) {
-
-        const result = Blog.deleteBlogPermanently(req.params.id);
-
+    Blog.deleteBlogPermanently(req.params.id).then((result) => {
         if (result) {
 
             req.session.toastr_messages = JSON.stringify(
@@ -289,7 +307,15 @@ router.get('/blog/delete/:id', (req, res, next) => {
 
             res.redirect('admin/blogs');
         }
-    } else {
+    }).catch((err) => {
+        next(err);
+    });
+});
+
+// events
+router.get('/events', (req, res, next) => {
+
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -300,20 +326,22 @@ router.get('/blog/delete/:id', (req, res, next) => {
         );
         res.redirect('/login');
     }
-});
 
-// events
-router.get('/events', (req, res, next) => {
-    if (req.session.isauthenticated) {
-
-        const result = Event.getAll();
+    Event.getAll().then((result) => {
         res.render('admin/events', {
             'title': 'Events',
             'isauthenticated': req.session.isauthenticated,
             'events': result
         });
+    }).catch((err) => {
+        next(err);
+    });
+});
 
-    } else {
+// // settings
+router.get('/settings', (req, res, next) => {
+
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -324,47 +352,30 @@ router.get('/events', (req, res, next) => {
         );
         res.redirect('/login');
     }
-});
 
-// // settings
-router.get('/settings', (req, res, next) => {
-    if (req.session.isauthenticated) {
+    const settingsViewModel = {
+        'title': 'Settings',
+        'isauthenticated': req.session.isauthenticated,
+        'about_section': '',
+        'archive_view': '',
+        'archive_view_categories': eventcategoryenum.ValueNameEnumArray,
+        'toastr_messages': req.session.toastr_messages
+    };
 
-        const settingsViewModel = {
-            'title': 'Settings',
-            'isauthenticated': req.session.isauthenticated,
-            'about_section': '',
-            'archive_view': '',
-            'archive_view_categories': [
-                { 'value': 'category', 'name': 'category' },
-                { 'value': 'date', 'name': 'date' }
-            ],
-            'toastr_messages': req.session.toastr_messages
-        };
-
-        const result = Settings.getSettings();
-
-        try {
-
+    Settings.getSettings()
+        .then((result) => {
             settingsViewModel.about_section = result.about_section;
             settingsViewModel.archive_view = result.archive_view;
 
             req.session.toastr_messages = null;
             res.render('admin/settings', settingsViewModel);
-        }
-        catch {
+        }).catch((err) => {
+            next(err);
+        });
 
-            const insertDefaultSettingsResult = Settings.insertDefaultSettings();
-            if (insertDefaultSettingsResult) {
-                settingsViewModel.about_section = insertDefaultSettingsResult.about_section;
-                settingsViewModel.archive_view = insertDefaultSettingsResult.archive_view;
-            }
-            req.session.toastr_messages = null;
-            res.render('admin/settings', settingsViewModel);
-        }
+}).post('/settings', (req, res, next) => {
 
-
-    } else {
+    if (!req.session.isauthenticated) {
         req.session.toastr_messages = JSON.stringify(
             [
                 {
@@ -375,11 +386,8 @@ router.get('/settings', (req, res, next) => {
         );
         res.redirect('/login');
     }
-}).post('/settings', (req, res, next) => {
-    if (req.session.isauthenticated) {
 
-        console.log(req.body);
-        const result = Settings.updateSettings(req.body.archiveView, req.body.about);
+    Settings.updateSettings(req.body.archiveView, req.body.about).then((result) => {
         if (result) {
             req.session.toastr_messages = JSON.stringify(
                 [
@@ -391,17 +399,10 @@ router.get('/settings', (req, res, next) => {
             );
         }
         res.redirect('/admin/settings');
-    } else {
-        req.session.toastr_messages = JSON.stringify(
-            [
-                {
-                    type: ToastrTypeEnum.Warning,
-                    msg: `Please login.`
-                }
-            ]
-        );
-        res.redirect('/login');
-    }
+    }).catch((err) => {
+        next(err);
+    })
+
 });
 
 export default router;
