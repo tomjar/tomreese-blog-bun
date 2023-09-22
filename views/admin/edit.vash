@@ -21,7 +21,7 @@
           <label for="postCategory">category:</label>
           <select class="form-control" name="category">
             @model.blog.categories.forEach(function(item){
-              if (item.name === model.category){
+              if (item.name === model.blog.category){
                 <option value="@item.value" selected>@item.name</option>
               }else{
                 <option value="@item.value">@item.name</option>

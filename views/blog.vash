@@ -2,12 +2,12 @@
   @html.block('content', function(model) {
     <h1>@model.title</h1>
 
-    <ul class="list-group list-group-horizontal bg-dark text-white">
-      <li class="list-group-item border-0 bg-dark text-white">
+    <ul>
+      <li>
         <img src='@model.imageUrl' alt='' width='75px' height='75px' />
       </li>
-      <li class="list-group-item border-0 bg-dark text-white">
-          <span style="font-size:xx-small">by <a href="/about" >Thomas Reese</a></span>
+      <li>
+          <span style="font-size:xx-small">by <a href="/about">Thomas Reese</a></span>
       </li>
       <li class="list-group-item border-0 bg-dark text-white">
       <span style="font-size:xx-small;">
@@ -19,7 +19,7 @@
         </span>
       </li>
       </ul>
-    <div class="text-white">
+    <div>
       <p>
         @html.raw(model.body)
       </p>

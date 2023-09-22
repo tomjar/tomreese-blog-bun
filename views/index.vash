@@ -38,8 +38,8 @@
       })
       </div>
   }else{
-    <div class="d-flex flex-wrap text-white flex-row bd-highlight mb-3">
-    <pre>@model.greeting</pre>
+    <div class="jumbotron d-flex flex-wrap text-white flex-row bd-highlight mb-3">
+      <pre>@model.greeting</pre>
     </div>
   }
   })

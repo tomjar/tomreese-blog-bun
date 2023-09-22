@@ -121,8 +121,9 @@ router.get('/blog/add', (req, res, next) => {
 // update
 router.get('/blog/update/:id', (req, res, next) => {
     if (req.session.isauthenticated) {
-
-        if(!Number.isInteger(req.params.id)){
+        
+        const blogId = parseInt(req.params.id);
+        if(!Number.isInteger(blogId)){
 
             req.session.toastr_messages = JSON.stringify(
                 [
@@ -154,7 +155,7 @@ router.get('/blog/update/:id', (req, res, next) => {
                 'ispublished': result.ispublished,
                 'description': result.description,
                 'name': result.name,
-                'category': result.category,
+                'category': result.category.toLowerCase(),
                 'body': result.body,
                 'categories': categories
             };

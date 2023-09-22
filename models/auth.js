@@ -12,9 +12,6 @@ const Auth = {
 
         if (password === cfpassword) {
 
-            const sqliteDb = new Database("tomreeseblog.sqlite");
-            const query = sqliteDb.query(`UPDATE Sspw SET pw=?1, salt=?2 WHERE username = ?3;`);
-
             const salt = Bun.hash(Date.now());
 
             const pwPlusSalt = password + salt;
@@ -25,6 +22,8 @@ const Auth = {
                 timeCost: 3, // the number of iterations
             });
 
+            const sqliteDb = new Database("tomreeseblog.sqlite");
+            const query = sqliteDb.query(`UPDATE Sspw SET pw=?1, salt=?2 WHERE username = ?3;`);
             const result = query.all(hash, salt, username);
             sqliteDb.close();
             return result;

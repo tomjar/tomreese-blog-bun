@@ -6,6 +6,7 @@ const Settings = {
      * 
      * @param {String} archive_view 
      * @param {String} about_section 
+     * @returns any[]
      */
     updateSettings: function (archive_view, about_section) {
         const sqliteDb = new Database("tomreeseblog.sqlite");
@@ -18,7 +19,7 @@ const Settings = {
     },
     /**
      * 
-     * @returns 
+     * @returns any[]
      */
     getSettings: function () {
         const sqliteDb = new Database("tomreeseblog.sqlite");

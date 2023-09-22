@@ -62,9 +62,11 @@ router.get('/', (req, res, next) => {
                     const category = EventCategoryEnum.LoginFailure;
                     const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-
-                    Event.insertEvent(ipAddress, category, description);
-                    res.redirect('/');
+                    // TODO: test ths promis
+                    Event.insertEvent(ipAddress, category, description).then((val) => {
+                        res.redirect('/');
+                    });
+                    
                 }
             })
     }

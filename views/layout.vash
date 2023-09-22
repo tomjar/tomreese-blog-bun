@@ -3,34 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Thomas Reese">
+  <meta name="description" content="Simple blogging website covering reviews, opinions and technical software development articles.">
+  <meta name="generator" content="Bun js">
   <link rel="shortcut icon" type="image/png" href="/images/tomreese-blog.ico"/>
 
-  <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
   <link rel="stylesheet" href="/stylesheets/trumbowyg.css" />
   <link rel="stylesheet" href="/stylesheets/toastr.css" />
   <link rel="stylesheet" href="/stylesheets/tomreeseblog.css" />
   <script src="/javascripts/jquery.js"></script>
-  <script src="/javascripts/umd/popper.js"></script>
-  <script src="/javascripts/bootstrap.js"></script>
   <script src="/javascripts/trumbowyg.js"></script>
   <script src="/javascripts/toastr.js"></script>
   <script src="/javascripts/utility.js"></script>
 </head> 
 
 <body>
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column bg-dark">
   <header>
     @html.include('_navbarlinks', model)
   </header>
-
-  <main class="px-3 h-100">
+  <main>
     <div class="container bg-dark shadow-lg rounded">
       @html.block('content')
     </div>
   </main>
 
-    @html.include('_footer')
     @html.block('_toastr_display')
-    </div>
 </body>
 </html>

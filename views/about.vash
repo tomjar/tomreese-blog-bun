@@ -1,7 +1,7 @@
 @html.extend('layout', function(model) {
   @html.block('content', function(model) {
 
-    <div class="text-white">
+    <div>
       @html.raw(model.about_section)
     </div>
   })

@@ -18,13 +18,18 @@ const Event = {
      * @param {String} ipaddress 
      * @param {String} category 
      * @param {String} description 
+     * @returns Promise<any>
      */
-    insertEvent: function (ipaddress, category, description) {
-        const sqliteDb = new Database("tomreeseblog.sqlite");
-        const query = sqliteDb.query('INSERT INTO Event(ip_address, category, description, createtimestamp) VALUES (?1, ?2, ?3, ?4);');
-        const result = query.all(ipaddress, category, description, Date.now());
-        sqliteDb.close();
-        return result;
+    insertEvent: async function (ipaddress, category, description) {
+
+        return new Promise((resolve, reject) =>{
+            const sqliteDb = new Database("tomreeseblog.sqlite");
+            const query = sqliteDb.query('INSERT INTO Event(ip_address, category, description, createtimestamp) VALUES (?1, ?2, ?3, ?4);');
+            const result = query.all(ipaddress, category, description, Date.now());
+            sqliteDb.close();
+            resolve(result);
+        });
+
     }
 }
 
