@@ -1,5 +1,6 @@
 {
   "name": "tomreese-blog-bun",
+  "version":"0.0.0",
   "module": "index.js",
   "type": "module",
   "devDependencies": {
