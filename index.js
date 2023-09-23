@@ -13,7 +13,7 @@ import CowSay from "cowsay";
 const port = 8080;
 const app = express();
 
-const isProduction = process.env.ENVIRONMENT === 'production';
+const isProduction = process.env.ENVIRONMENT ? true : false;
 
 const sess = {
   secret: isProduction ? process.env.SESSION_SECRET : 'dev-secret',

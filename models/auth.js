@@ -13,9 +13,8 @@ const Auth = {
 
         if (password === cfpassword) {
 
-            const salt = Bun.hash(Date.now());
-
-            const pwPlusSalt = password + salt;
+            const salt = Bun.hash(Math.random());
+            const pwPlusSalt = `${password}${salt}`;
 
             const hash = await Bun.password.hash(pwPlusSalt, {
                 algorithm: "argon2d", // "argon2id" | "argon2i" | "argon2d"
