@@ -7,26 +7,35 @@
   <meta name="description" content="Simple blogging website covering reviews, opinions and technical software development articles.">
   <meta name="generator" content="Bun js">
   <link rel="shortcut icon" type="image/png" href="/images/tomreese-blog.ico"/>
-
-  <link rel="stylesheet" href="/stylesheets/trumbowyg.css" />
-  <link rel="stylesheet" href="/stylesheets/toastr.css" />
-  <link rel="stylesheet" href="/stylesheets/tomreeseblog.css" />
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/trumbowyg.js"></script>
   <script src="/javascripts/toastr.js"></script>
   <script src="/javascripts/utility.js"></script>
+  <script src="/javascripts/bootstrap.js"></script>
+  <link rel="stylesheet" href="/stylesheets/trumbowyg.css" />
+  <link rel="stylesheet" href="/stylesheets/toastr.css" />
+  <link rel="stylesheet" href="/stylesheets/tomreeseblog.css" />
+  <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+
 </head> 
 
-<body>
-  <header>
+<body class="text-center text-white">
+<div class="cover-container d-flex h-100 w-100 p-3 mx-auto flex-column">
+
+  <header class="masthead mb-auto text-center">
     @html.include('_navbarlinks', model)
   </header>
-  <main>
-    <div class="container bg-dark shadow-lg rounded">
+
+  <main role="main" class="inner cover">
       @html.block('content')
-    </div>
   </main>
 
-    @html.block('_toastr_display')
+    @html.include('_footer')
+    
+  </div>
+
+    @html.block('_toastr_display', function(model){
+      @html.include('_toastr_display', model)
+    })
 </body>
 </html>

@@ -1,8 +1,6 @@
 @html.extend('layout', function(model) {
   @html.block('content', function(model) {
-    @html.block('_toastr_display', function(model){
-      @html.include('_toastr_display', model)
-    })
+    
     <h1 class="text-white">@model.title</h1>
     <form method="post" action="/admin/settings" id="formUpdateSettings">
       <div class="row">

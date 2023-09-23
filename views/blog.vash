@@ -1,6 +1,6 @@
 @html.extend('layout', function(model) {
   @html.block('content', function(model) {
-    <h1>@model.title</h1>
+    <h1 class="text-white">@model.title</h1>
 
     <ul>
       <li>
@@ -9,7 +9,7 @@
       <li>
           <span style="font-size:xx-small">by <a href="/about">Thomas Reese</a></span>
       </li>
-      <li class="list-group-item border-0 bg-dark text-white">
+      <li class="list-group-item border-0 text-white">
       <span style="font-size:xx-small;">
           <i>first published on @model.createtimestamp UTC</i>
           <br />
@@ -19,11 +19,9 @@
         </span>
       </li>
       </ul>
-    <div>
-      <p>
+      <div class="text-white shadow-lg rounded flex-fill flex-xl-grow-1">
         @html.raw(model.body)
       </p>
-    </div>
   
   })
 })

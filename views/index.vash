@@ -1,8 +1,6 @@
 @html.extend('layout', function(model) {
   @html.block('content', function(model) {
-    @html.block('_toastr_display', function(model){
-      @html.include('_toastr_display', model)
-    })
+
     <h1 class="text-white" title="last 30 days">@model.title</h1>
 
   @if(model.lastThirtyDaysBlogs && model.lastThirtyDaysBlogs.length > 0){
@@ -38,7 +36,7 @@
       })
       </div>
   }else{
-    <div class="jumbotron d-flex flex-wrap text-white flex-row bd-highlight mb-3">
+    <div class="jumbotron container text-white ml-auto">
       <pre>@model.greeting</pre>
     </div>
   }

@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col">
           <label for="">name(view file name):</label>
-          <span class="form-control" name="name">@model.name</span>
+          <span name="name">@model.name</span>
         </div>
         <div class="col">
           <label for="postCategory">category:</label>
@@ -38,11 +38,11 @@
           <label for="ispublished">publish post?:</label>
             <select class="form-control" name="ispublished">
               @if (model.blog.ispublished){
-              <option value="true" selected>Yes</option>
-              <option value="false">No</option>
+              <option value="1" selected>Yes</option>
+              <option value="0">No</option>
               }else{
-              <option value="true">Yes</option>
-              <option value="false" selected>No</option>
+              <option value="1">Yes</option>
+              <option value="0" selected>No</option>
               }
             </select>
         </div>
@@ -52,7 +52,7 @@
 
       <div class="row">
         <div class="col">
-          <label>description:</label>
+          <label>Description:</label>
           <textarea type="text" class="form-control" name="description" placeholder="description">@model.blog.description</textarea>
         </div>
       </div>
@@ -61,7 +61,7 @@
 
       <div class="row">
         <div class="col">
-            <label>body:</label>
+            <label>Body:</label>
             <textarea type="text" class="form-control trumbowyg" name="body" rows="25" placeholder="post content">@model.blog.body</textarea>
         </div>
       </div>

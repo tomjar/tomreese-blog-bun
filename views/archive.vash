@@ -2,7 +2,7 @@
   @html.block('content', function(model) {
 
 <hr />
-<h3>archive</h3>
+<h1 class="text-white">Archive</h3>
 <div class="archive text-white">
 @model.yearAndBlogs.forEach(function(item){
   <strong>@item.year</strong>
