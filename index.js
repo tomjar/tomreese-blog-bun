@@ -43,9 +43,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(import.meta.dir, 'public')));
 app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/trumbowyg/dist/ui'));
 app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/toastr/build'));
+app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/bootstrap/dist/css'));
+app.use('/stylesheets', express.static(import.meta.dir + '/node_modules/toastr/build'));
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/jquery/dist'));
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/trumbowyg/dist'));
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/toastr'));
+app.use('/javascripts', express.static(import.meta.dir + '/node_modules/bootstrap/dist/js'));
 
 app.use('/admin', adminRoutes);
 app.use('/blog', blogRoutes);
