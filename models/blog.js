@@ -156,7 +156,7 @@ const Blog = {
         return new Promise((response, reject) => {
             const sqliteDb = new Database("tomreeseblog.sqlite");
             const today = new Date();
-            const query = sqliteDb.query(`SELECT * FROM Blog WHERE createtimestamp >= ?1`);
+            const query = sqliteDb.query(`SELECT id, header, date(createtimestamp/ 1000, 'unixepoch') as 'createtimestamp',date(modifytimestamp/ 1000, 'unixepoch') as 'modifytimestamp', ispublished, description, name, category FROM Blog WHERE createtimestamp >= ?1`);
             const result = query.all(new Date().setDate(today.getDate() - 30));
             sqliteDb.close();
             if(response && response.length > 0){

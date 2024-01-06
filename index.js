@@ -3,10 +3,7 @@ import session from "express-session";
 import path from "path";
 import errors from "http-errors";
 
-import adminRoutes from "./routes/adminRoutes.js";
-import blogRoutes from "./routes/blogRoutes.js";
 import indexRoutes from "./routes/indexRoutes.js";
-import loginRoutes from "./routes/loginRoutes.js";
 import Utility from "./models/utility.js";
 import CowSay from "cowsay";
 
@@ -50,10 +47,7 @@ app.use('/javascripts', express.static(import.meta.dir + '/node_modules/trumbowy
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/toastr'));
 app.use('/javascripts', express.static(import.meta.dir + '/node_modules/bootstrap/dist/js'));
 
-app.use('/admin', adminRoutes);
-app.use('/blog', blogRoutes);
 app.use('/', indexRoutes);
-app.use('/login', loginRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

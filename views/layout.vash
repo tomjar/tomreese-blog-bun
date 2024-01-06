@@ -10,7 +10,7 @@
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/trumbowyg.js"></script>
   <script src="/javascripts/toastr.js"></script>
-  <script src="/javascripts/utility.js"></script>
+  <script src="/js/utility.js"></script>
   <script src="/javascripts/bootstrap.js"></script>
   <link rel="stylesheet" href="/stylesheets/trumbowyg.css" />
   <link rel="stylesheet" href="/stylesheets/toastr.css" />
@@ -29,8 +29,6 @@
   <main role="main" class="inner cover">
       @html.block('content')
   </main>
-
-    @html.include('_footer')
     
   </div>
 
